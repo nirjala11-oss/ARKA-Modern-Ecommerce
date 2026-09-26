@@ -1,26 +1,314 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-geist-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
+
+  /* ARKA Luxury Department Store Palette (Heritage Forest Emerald & Warm Alabaster) */
+  --bg-base: #fbfaf8;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f4f2ee;
+  --bg-surface-hover: #eae7e1;
+  --bg-overlay: rgba(17, 19, 21, 0.55);
+
+  --ink-primary: #111315;
+  --ink-secondary: #2f343a;
+  --ink-muted: #6e747c;
+  
+  /* Classy Luxury Accents - British Racing / Heritage Forest Emerald & Champagne Brass */
+  --brand-emerald: #143e2e;
+  --brand-emerald-hover: #1b523d;
+  --brand-emerald-subtle: #edf5f0;
+  
+  --brand-brass: #c5a059;
+  --brand-brass-hover: #b38d45;
+  --brand-brass-subtle: #fbf6ec;
+
+  --border-subtle: #e8e6e1;
+  --border-medium: #d6d3cb;
+  --border-focus: #143e2e;
+
+  --radius-outer: 1.25rem;
+  --radius-inner: calc(1.25rem - 0.375rem);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-base);
+  --color-foreground: var(--ink-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Responsive Root Scale for Elevated Readability & Generous Spaciousness across Mobile and PC */
+html {
+  font-size: 16.5px;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 17px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (min-width: 1280px) {
+  html {
+    font-size: 17.5px;
+  }
 }
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f2ee;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3cb;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b5b0a3;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--bg-base);
+  color: var(--ink-secondary);
+  font-family: var(--font-geist-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4 {
+  color: var(--ink-primary);
+  text-wrap: balance;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+p {
+  text-wrap: pretty;
+  line-height: 1.65;
+}
+
+/* Double-Bezel Card Architecture in Warm Alabaster & Heritage Green */
+.double-bezel {
+  background: #fbfaf8;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-outer);
+  padding: 0.375rem;
+  box-shadow: 0 4px 18px -2px rgba(17, 19, 21, 0.04), 0 1px 4px -1px rgba(17, 19, 21, 0.02);
+  transition: all 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.double-bezel:hover {
+  border-color: var(--border-medium);
+  box-shadow: 0 12px 28px -4px rgba(17, 19, 21, 0.08), 0 3px 8px -2px rgba(17, 19, 21, 0.03);
+}
+
+.double-bezel-inner {
+  background-color: #ffffff;
+  border-radius: var(--radius-inner);
+  border: 1px solid #f4f2ee;
+}
+
+/* Button-in-button trailing icon */
+.btn-nested {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1.25rem 0.625rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-nested:active {
+  transform: scale(0.98);
+}
+
+.btn-nested .icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 9999px;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-nested:hover .icon-circle {
+  transform: translateX(2px) translateY(-1px);
+}
+
+/* Glassmorphism for Light Luxury Header */
+.glass-nav-luxury {
+  background-color: rgba(251, 250, 248, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Glow Keyframe Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(20, 62, 46, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.35);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Mobile Touch Ergonomics */
+@media (max-width: 640px) {
+  button, a {
+    min-height: 38px;
+  }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #143e2e, 0 0 0 4px #ffffff;
+}
+
+/* User-Delight Micro-Animations and Luxury Effects */
+.card-lift {
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease;
+  will-change: transform, box-shadow;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 32px -8px rgba(20, 62, 46, 0.12), 0 8px 16px -4px rgba(17, 19, 21, 0.04);
+  border-color: #d2e4d8;
+}
+
+/* Shimmer Light Reflection on Hover for Primary Buttons */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 80%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  transition: transform 750ms ease;
+}
+
+.btn-shimmer:hover::after {
+  transform: rotate(30deg) translateX(100%);
+}
+
+.btn-shimmer:active {
+  transform: scale(0.97);
+}
+
+/* Atmospheric Brass & Gold Ambient Radiance */
+.glow-brass {
+  box-shadow: 0 0 24px -2px rgba(197, 160, 89, 0.32);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 24px -2px rgba(20, 62, 46, 0.28);
+}
+
+/* Subtle Idle Floating for Featured Badges & Icons */
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+
+/* Tactile Spring Press for Touch & Desktop Click */
+.tactile-press {
+  transition: transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tactile-press:active {
+  transform: scale(0.96);
+}
+
+/* Mobile Responsiveness & Cross-Browser Touch Polish */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar for clean horizontal ribbon scrolling across mobile devices */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area insets for mobile notches (iPhone Safari & Android Chrome) */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0.5rem);
+}
+
+/* Minimum accessible touch target */
+.min-touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+

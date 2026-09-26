@@ -1,0 +1,89 @@
+[
+  {
+    "id": "user-admin-01",
+    "email": "admin@ecommerce.com",
+    "name": "Atelier Director (Admin)",
+    "phone": "+91 98201 11223",
+    "role": "admin",
+    "avatar": "AD",
+    "passwordHash": "$2b$10$/dtejk3O5lDEvsUxNxs3OOigyfBh1lL2rOqLTFvSdqZaZ/NS6.GDq"
+  },
+  {
+    "id": "user-seller-01",
+    "email": "seller@ecommerce.com",
+    "name": "Vikramaditya Oberoi",
+    "phone": "+91 98112 33445",
+    "role": "seller",
+    "avatar": "VO",
+    "storeName": "Saffron & Stone Atelier",
+    "passwordHash": "$2b$10$nOAcg69WdtQtq5ERjhHt6u/nOaVm1Ct5J/hRiOlOidkJD/Sixm4zC"
+  },
+  {
+    "id": "user-vip-02",
+    "email": "aarav.sharma@example.in",
+    "name": "Aarav Sharma",
+    "phone": "+91 98201 45678",
+    "role": "user",
+    "avatar": "AS",
+    "passwordHash": "$2b$10$TduYiHiDn5ea.ZLdmtJt4eVG3XuezSQUWAO2jAG71kv0qtdgOc4Iu"
+  },
+  {
+    "id": "user-demo-03",
+    "email": "user@example.com",
+    "name": "Priya Sundaram",
+    "phone": "+91 99402 78901",
+    "role": "user",
+    "avatar": "PS",
+    "passwordHash": "$2b$10$PuconDGyFZfHCXgeJIUz1eO1pgOWqfyCjxV2rzzHppMyanWMqqtKa"
+  },
+  {
+    "id": "user-1790422146636-5d2k",
+    "email": "zoya.kapoor@example.in",
+    "name": "Zoya Kapoor",
+    "role": "user",
+    "avatar": "ZK",
+    "passwordHash": "$2b$10$ZeNQETxgZao8gLUHmRNv1OhX7ux501LfUxDnktOxTWkjFk4HGYN2W"
+  },
+  {
+    "id": "user-1790422146799-wdw3",
+    "email": "rohit.mehta@example.in",
+    "name": "Rohit Mehta",
+    "role": "user",
+    "avatar": "RM",
+    "passwordHash": "$2b$10$6knNeDgTkeTk.loi7Fo7zORaKazgmagpggQqcIBj8ikmW.5V9wauu"
+  },
+  {
+    "id": "user-1790422197806-21o0",
+    "email": "tester-1790422197656@example.in",
+    "name": "Persistence Tester",
+    "role": "user",
+    "avatar": "PT",
+    "passwordHash": "$2b$10$DgZzBBklYMXAjF6PGsXoV.Ptq9Q7VZRjkXpg2bznOv6acbNwZfIla"
+  },
+  {
+    "id": "user-1790422343257-mj0f",
+    "email": "tester-1790422343182@example.in",
+    "name": "Persistence Tester",
+    "role": "user",
+    "avatar": "PT",
+    "passwordHash": "$2b$10$82gJxv3G9SiuhF9dtvEzke6f.6wzcou7nZfP0XGStpb8W2//AyDyC"
+  },
+  {
+    "id": "user-1790422556234-miig",
+    "email": "chetan@gmail.com",
+    "name": "Chetan",
+    "phone": "123456789",
+    "role": "user",
+    "avatar": "C",
+    "passwordHash": "$2b$10$oURPi64t.dBoLWyVnwmesu3nEy7yUfXqb97o5NoUQBhAvwRiDvmci"
+  },
+  {
+    "id": "user-1790422663078-5ya5",
+    "email": "sidhantw69@gmail.com",
+    "name": "Sidhant",
+    "phone": "789456123",
+    "role": "user",
+    "avatar": "S",
+    "passwordHash": "$2b$10$LHVbAGHfN5dSVy3H3LSW1O6jIkRRPSvEHn529IVKX8KVP1LdyYaXK"
+  }
+]
