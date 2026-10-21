@@ -166,6 +166,7 @@ async function withDbTimeout<T>(promise: Promise<T>, timeoutMs = 800): Promise<T
 }
 
 function canAttemptDbQuery(): boolean {
+  if (!process.env.DATABASE_URL || !prisma) return false
   if (dbCircuitBreaker.isOperational) return true
   const now = Date.now()
   if (now - dbCircuitBreaker.lastFailureTime > dbCircuitBreaker.cooldownPeriodMs) {
