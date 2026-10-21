@@ -11,6 +11,8 @@ export interface StoredUser extends User {
 // Durable file database storage configuration
 const DATA_DIR = path.join(process.cwd(), 'data')
 const USERS_FILE = path.join(DATA_DIR, 'users.json')
+const TMP_DATA_DIR = path.join('/tmp', 'data')
+const TMP_USERS_FILE = path.join(TMP_DATA_DIR, 'users.json')
 
 // In-memory fallback users for development and testing
 const initialUsers: StoredUser[] = [
@@ -70,6 +72,7 @@ function ensureDataDir() {
 
 function persistUsersToDisk(users: StoredUser[]) {
   ensureDataDir()
+  // 1. Try persisting to local project data/ (works locally on all systems)
   try {
     const tempFile = `${USERS_FILE}.tmp`
     fs.writeFileSync(tempFile, JSON.stringify(users, null, 2), 'utf-8')
@@ -78,13 +81,42 @@ function persistUsersToDisk(users: StoredUser[]) {
     try {
       fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf-8')
     } catch {
-      // Non-fatal fallback
+      // Read-only filesystem in Vercel lambda
     }
+  }
+
+  // 2. Also persist to /tmp/data/users.json for Vercel serverless runtime
+  try {
+    if (!fs.existsSync(TMP_DATA_DIR)) {
+      fs.mkdirSync(TMP_DATA_DIR, { recursive: true })
+    }
+    const tmpTemp = `${TMP_USERS_FILE}.tmp`
+    fs.writeFileSync(tmpTemp, JSON.stringify(users, null, 2), 'utf-8')
+    fs.renameSync(tmpTemp, TMP_USERS_FILE)
+  } catch {
+    // Non-fatal fallback
   }
 }
 
 function loadPersistedUsers(): StoredUser[] {
   ensureDataDir()
+  // 1. Check /tmp on serverless environments for updated state
+  try {
+    if (fs.existsSync(TMP_USERS_FILE)) {
+      const content = fs.readFileSync(TMP_USERS_FILE, 'utf-8')
+      const parsed = JSON.parse(content) as StoredUser[]
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        const mergedMap = new Map<string, StoredUser>()
+        initialUsers.forEach((u) => mergedMap.set(u.email.toLowerCase(), u))
+        parsed.forEach((u) => mergedMap.set(u.email.toLowerCase(), u))
+        return Array.from(mergedMap.values())
+      }
+    }
+  } catch {
+    // fallback
+  }
+
+  // 2. Check bundled project data/users.json
   try {
     if (fs.existsSync(USERS_FILE)) {
       const content = fs.readFileSync(USERS_FILE, 'utf-8')

@@ -1,0 +1,141 @@
+[
+  {
+    "userId": "user-demo-03",
+    "name": "Priya Sundaram",
+    "email": "user@example.com",
+    "phone": "+91 99402 78901",
+    "address": "402, Prestige Palms, 100ft Road, Indiranagar",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "zipCode": "560038",
+    "country": "India",
+    "paymentMethod": "credit_card",
+    "paymentStatus": "paid",
+    "items": [
+      {
+        "id": "item-1790585000732-0",
+        "productId": "vajra-03",
+        "product": {
+          "id": "vajra-03",
+          "name": "Vajra Nocturne 65 Gasket Mechanical Keyboard",
+          "subtitle": "Machined aluminum chassis with bespoke pre-lubed tactile switches",
+          "description": "A tactile masterpiece built for software architects and typists. Featuring a poly-carbonate plate with poron foam isolation gaskets, factory-lubed custom 45g linear switches, double-shot PBT keycaps, and hot-swap PCB.",
+          "price": 16999,
+          "originalPrice": 19999,
+          "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=80",
+          "gallery": [
+            "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=1200&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=1200&auto=format&fit=crop&q=80"
+          ],
+          "category": "Computing",
+          "tags": [
+            "keyboard",
+            "mechanical",
+            "gasket",
+            "wireless",
+            "desksetup"
+          ],
+          "stock": 41,
+          "rating": 4.95,
+          "reviewCount": 428,
+          "badge": "Bestseller",
+          "features": [
+            "Solid CNC-milled 6063 aluminum body with brass acoustic weight",
+            "Poron foam sandwich gasket dampening for a deep, satisfying acoustic thock",
+            "Pre-lubed custom Kailh linear switches with POM self-lubricating stems",
+            "Tri-mode connection: 2.4GHz 1000Hz hyper-polling dongle, Bluetooth 5.3, USB-C",
+            "Mac and Windows interchangeable layout with programmable VIA open-source firmware"
+          ],
+          "specs": {
+            "Layout": "65% Compact (68 keys with brass rotary volume encoder)",
+            "Mount Type": "Gasket Mount with silicone isolation socks",
+            "Polling Frequency": "1000Hz (Wired & 2.4G) / 125Hz (Bluetooth)",
+            "Battery Capacity": "4000mAh (Up to 240 hours usage with backlight off)",
+            "Weight": "1.35 kg"
+          }
+        },
+        "quantity": 1,
+        "price": 16999
+      }
+    ],
+    "subtotal": 16999,
+    "discount": 0,
+    "tax": 3060,
+    "shipping": 0,
+    "total": 20059,
+    "id": "VJ-274807",
+    "status": "processing",
+    "trackingNumber": "DELHIVERY-HR82IVPIN",
+    "createdAt": "2026-09-28T08:43:20.732Z"
+  },
+  {
+    "id": "VJ-84920",
+    "status": "shipped",
+    "subtotal": 29999,
+    "discount": 0,
+    "tax": 4576,
+    "shipping": 0,
+    "total": 29999,
+    "name": "Aarav Sharma",
+    "email": "aarav.sharma@example.in",
+    "phone": "+91 98201 45678",
+    "address": "Flat 402, Prestige Palms, 100ft Road, Indiranagar",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "zipCode": "560038",
+    "country": "India",
+    "paymentMethod": "apple_pay",
+    "paymentStatus": "paid",
+    "trackingNumber": "BLUEDART-984210IN",
+    "createdAt": "2026-09-26T08:39:27.615Z",
+    "items": [
+      {
+        "id": "item-1",
+        "productId": "vajra-01",
+        "product": {
+          "id": "vajra-01",
+          "name": "Vajra Aetheris Pro Planar ANC Headphones",
+          "subtitle": "Reference-grade spatial audio with magnetic planar transducers",
+          "description": "Precision-machined from aerospace 6063 aluminum and soft lambskin. Featuring custom 40mm planar magnetic drivers, adaptive hybrid noise cancellation with 8 beamforming mics, LDAC lossless wireless, and 48 hours of battery playback.",
+          "price": 29999,
+          "originalPrice": 34999,
+          "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+          "gallery": [
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1200&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=1200&auto=format&fit=crop&q=80"
+          ],
+          "category": "Audio",
+          "tags": [
+            "headphones",
+            "audiophile",
+            "planar",
+            "wireless",
+            "anc"
+          ],
+          "stock": 28,
+          "rating": 4.9,
+          "reviewCount": 312,
+          "badge": "Bestseller",
+          "features": [
+            "Custom 40mm planar magnetic drivers engineered for zero acoustic distortion",
+            "Hybrid Active Noise Cancellation with ambient awareness transparency mode",
+            "Lossless 24-bit/96kHz LDAC and aptX Adaptive codec support",
+            "Multipoint dual-device Bluetooth 5.4 with instantaneous handover",
+            "1-Year Pan-India Doorstep Replacement Warranty with BIS Certification"
+          ],
+          "specs": {
+            "Driver Architecture": "40mm Planar Magnetic Array",
+            "Frequency Response": "5Hz - 45,000Hz Ultra-Wide",
+            "Battery Endurance": "48 hours (ANC off) / 38 hours (ANC on)",
+            "Fast Charging": "USB-C SuperCharge (10 min charge = 6 hours)",
+            "Chassis Material": "Aero-grade 6063 Bead-blasted Aluminum",
+            "Certification": "BIS Certified (R-41009823), Hi-Res Audio Wireless"
+          }
+        },
+        "quantity": 1,
+        "price": 29999
+      }
+    ]
+  }
+]
