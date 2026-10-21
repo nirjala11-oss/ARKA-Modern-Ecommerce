@@ -26,7 +26,10 @@ import {
   Store,
   Users,
   ShieldCheck,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles,
+  KeyRound,
+  Database
 } from 'lucide-react'
 
 interface SellerMetric {
@@ -42,12 +45,25 @@ interface SellerMetric {
   joinedDate: string
 }
 
+interface AdminUser {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  role: 'user' | 'seller' | 'admin'
+  avatar?: string
+  storeName?: string
+  isDemo?: boolean
+  demoPassword?: string
+}
+
 export default function AdminConsolePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [orders, setOrders] = useState<Order[]>([])
   const [sellers, setSellers] = useState<SellerMetric[]>([])
+  const [users, setUsers] = useState<AdminUser[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'inventory' | 'orders' | 'sellers'>('inventory')
+  const [activeTab, setActiveTab] = useState<'inventory' | 'orders' | 'sellers' | 'users'>('inventory')
   const [filterSearch, setFilterSearch] = useState('')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -75,18 +91,21 @@ export default function AdminConsolePage() {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const [pRes, oRes, sRes] = await Promise.all([
+      const [pRes, oRes, sRes, uRes] = await Promise.all([
         fetch('/api/products?limit=100'),
         fetch('/api/orders'),
         fetch('/api/admin/sellers'),
+        fetch('/api/admin/users'),
       ])
       const pData = await pRes.json()
       const oData = await oRes.json()
       const sData = await sRes.json()
+      const uData = await uRes.json()
 
       if (pData.success && pData.products) setProducts(pData.products)
       if (oData.success && oData.orders) setOrders(oData.orders)
       if (sData.success && sData.sellers) setSellers(sData.sellers)
+      if (uData.success && uData.users) setUsers(uData.users)
     } catch (err) {
       console.error('Failed to load admin telemetry', err)
     } finally {
@@ -219,6 +238,13 @@ export default function AdminConsolePage() {
     s.email.toLowerCase().includes(filterSearch.toLowerCase())
   )
 
+  const filteredUsers = users.filter((u) =>
+    u.name.toLowerCase().includes(filterSearch.toLowerCase()) ||
+    u.email.toLowerCase().includes(filterSearch.toLowerCase()) ||
+    u.role.toLowerCase().includes(filterSearch.toLowerCase()) ||
+    (u.storeName && u.storeName.toLowerCase().includes(filterSearch.toLowerCase()))
+  )
+
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfaf8] text-stone-900 selection:bg-[#143e2e] selection:text-white">
       <Navbar />
@@ -341,6 +367,16 @@ export default function AdminConsolePage() {
               }`}
             >
               Seller Boutiques ({sellers.length || 1})
+            </button>
+            <button
+              onClick={() => { setActiveTab('users'); setFilterSearch('') }}
+              className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'users'
+                  ? 'bg-[#143e2e] text-white shadow-sm'
+                  : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
+              }`}
+            >
+              Users & Demo Accounts ({users.length || 4})
             </button>
           </div>
 
@@ -560,6 +596,172 @@ export default function AdminConsolePage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: USERS & DEMO ACCOUNTS GOVERNANCE */}
+        {activeTab === 'users' && (
+          <div className="space-y-6">
+            {/* Demo Accounts Quick-Reference Callout */}
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#f5f3ef] to-[#ebe7de] border border-[#d8d3c5] shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[#143e2e]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#c5a059]" />
+                    <span>Self-Contained File Database Engine</span>
+                  </div>
+                  <h3 className="text-lg font-bold font-serif text-stone-900">
+                    Pre-Seeded Demo Personas (Instant 1-Click Access)
+                  </h3>
+                  <p className="text-xs text-stone-600">
+                    All accounts are persisted in <code className="px-1.5 py-0.5 rounded bg-white/80 font-mono text-[11px] text-stone-800 border border-stone-300">data/users.json</code>. No external database or setup required. Works seamlessly on any local computer and in Vercel serverless deployments.
+                  </p>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono font-bold whitespace-nowrap self-start sm:self-auto">
+                  <Database className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>JSON File DB Active</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-xs space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono font-bold text-[#c5a059] uppercase">Atelier Admin</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">Full Access</span>
+                  </div>
+                  <div className="text-sm font-bold text-stone-900">admin@ecommerce.com</div>
+                  <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
+                    <KeyRound className="w-3 h-3 text-stone-400" />
+                    <span>Password: <strong className="text-stone-900">admin123</strong></span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-xs space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono font-bold text-amber-700 uppercase">Artisan Seller</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">Seller Studio</span>
+                  </div>
+                  <div className="text-sm font-bold text-stone-900">seller@ecommerce.com</div>
+                  <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
+                    <KeyRound className="w-3 h-3 text-stone-400" />
+                    <span>Password: <strong className="text-stone-900">seller123</strong></span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-xs space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono font-bold text-[#143e2e] uppercase">VIP Client</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">Customer</span>
+                  </div>
+                  <div className="text-sm font-bold text-stone-900">user@example.com</div>
+                  <div className="text-xs font-mono text-stone-500 flex items-center gap-1.5">
+                    <KeyRound className="w-3 h-3 text-stone-400" />
+                    <span>Password: <strong className="text-stone-900">user123</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Users Master Registry Table */}
+            <div className="border border-stone-200 rounded-3xl overflow-hidden bg-white shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-stone-50 border-b border-stone-200 text-[11px] font-mono uppercase text-stone-500 font-bold">
+                    <tr>
+                      <th className="py-4 px-6">User / Identity</th>
+                      <th className="py-4 px-4">Email & Phone</th>
+                      <th className="py-4 px-4">Role</th>
+                      <th className="py-4 px-4">Account Type</th>
+                      <th className="py-4 px-4">Database Source</th>
+                      <th className="py-4 px-6 text-right">Quick Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-100">
+                    {filteredUsers.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="py-10 text-center text-stone-400">
+                          No users matched &quot;{filterSearch}&quot;
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredUsers.map((u) => (
+                        <tr key={u.id} className="hover:bg-stone-50/70 transition-colors">
+                          <td className="py-3.5 px-6">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-xl bg-[#143e2e] text-[#c5a059] flex items-center justify-center font-bold text-xs font-mono shadow-xs">
+                                {u.avatar || u.name.slice(0, 2).toUpperCase()}
+                              </div>
+                              <div>
+                                <div className="font-bold text-stone-950 flex items-center gap-1.5">
+                                  <span>{u.name}</span>
+                                  {u.isDemo && (
+                                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">
+                                      DEMO
+                                    </span>
+                                  )}
+                                </div>
+                                {u.storeName && (
+                                  <div className="text-[11px] text-amber-700 font-medium flex items-center gap-1">
+                                    <Store className="w-3 h-3" />
+                                    <span>{u.storeName}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-4 font-mono text-xs">
+                            <div className="text-stone-900 font-medium">{u.email}</div>
+                            <div className="text-stone-400 text-[11px]">{u.phone || 'No phone set'}</div>
+                          </td>
+                          <td className="py-3.5 px-4">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${
+                                u.role === 'admin'
+                                  ? 'bg-[#edf5f0] text-[#143e2e] border-[#d2e4d8]'
+                                  : u.role === 'seller'
+                                  ? 'bg-amber-50 text-amber-900 border-amber-200'
+                                  : 'bg-stone-100 text-stone-800 border-stone-200'
+                              }`}
+                            >
+                              {u.role === 'admin' ? '👑 Atelier Director (Admin)' : u.role === 'seller' ? '🏪 Artisan Seller' : '👤 VIP Customer'}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-4">
+                            {u.isDemo ? (
+                              <div className="space-y-0.5">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-amber-800">
+                                  <Sparkles className="w-3 h-3 text-[#c5a059]" />
+                                  <span>Pre-Seeded Demo</span>
+                                </span>
+                                <div className="text-[10px] font-mono text-stone-500">
+                                  Pass: <span className="font-bold text-stone-800">{u.demoPassword || 'user123'}</span>
+                                </div>
+                              </div>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-700 font-medium">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                                <span>Active Registered</span>
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3.5 px-4 font-mono text-[11px] text-stone-500">
+                            data/users.json
+                          </td>
+                          <td className="py-3.5 px-6 text-right">
+                            <Link
+                              href="/login"
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#143e2e] hover:underline"
+                            >
+                              Test Login →
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

@@ -6,6 +6,8 @@ import path from 'path'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json')
+const TMP_DATA_DIR = path.join('/tmp', 'data')
+const TMP_ORDERS_FILE = path.join(TMP_DATA_DIR, 'orders.json')
 
 const seedOrders: Order[] = [
   {
@@ -48,6 +50,20 @@ const globalDbStore = globalThis as unknown as {
 }
 
 function loadPersistedOrders(): Order[] {
+  // 1. Check /tmp on serverless environments
+  try {
+    if (fs.existsSync(TMP_ORDERS_FILE)) {
+      const content = fs.readFileSync(TMP_ORDERS_FILE, 'utf-8')
+      const parsed = JSON.parse(content) as Order[]
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed
+      }
+    }
+  } catch {
+    // fallback
+  }
+
+  // 2. Check bundled project data/orders.json
   try {
     if (fs.existsSync(ORDERS_FILE)) {
       const content = fs.readFileSync(ORDERS_FILE, 'utf-8')
@@ -63,6 +79,7 @@ function loadPersistedOrders(): Order[] {
 }
 
 function persistOrdersToDisk(orders: Order[]) {
+  // 1. Try local project data/ (works on dev/local machines)
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true })
@@ -76,6 +93,18 @@ function persistOrdersToDisk(orders: Order[]) {
     } catch {
       // non-fatal fallback
     }
+  }
+
+  // 2. Also persist to /tmp on serverless environments like Vercel
+  try {
+    if (!fs.existsSync(TMP_DATA_DIR)) {
+      fs.mkdirSync(TMP_DATA_DIR, { recursive: true })
+    }
+    const tmpTemp = `${TMP_ORDERS_FILE}.tmp`
+    fs.writeFileSync(tmpTemp, JSON.stringify(orders, null, 2), 'utf-8')
+    fs.renameSync(tmpTemp, TMP_ORDERS_FILE)
+  } catch {
+    // non-fatal fallback
   }
 }
 
